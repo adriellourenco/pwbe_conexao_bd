@@ -1,11 +1,13 @@
 <?php
-/////////////////////////////////////////////////
+ ////////////////////////////////////////////////
+//                                             //
 // Arquivo para criar a conexão com o BD MySQL //
 //                                             //
 // Autor : Leonardo Antunes                    //
 // Data : 25/02/22                             //
 // Versão : 1.0                                //
-// //////////////////////////////////////////////
+//                                             //
+////////////////////////////////////////////////
 
 // Constantes para estabelecer conexão com banco de dados 
 // (local do bd, usuario, senha e database)
