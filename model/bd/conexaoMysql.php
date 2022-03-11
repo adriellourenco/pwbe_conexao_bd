@@ -16,7 +16,7 @@ const USER = "root";
 const PASSWORD = "bcd127";
 const DATABASE = "db_contatos";
 
-$resultado = conexaoMysql();
+$resultado = abrirConexaoMysql();
 
 echo "<pre>";
 print_r($resultado);
@@ -27,7 +27,7 @@ echo "</pre>";
  *
  * @return array	conexão
  */
-function conexaoMysql() {        
+function abrirConexaoMysql() {        
 	$conexao = array();
 
 	// se a conexão for estabelecida com o BD, iremos ter um array
