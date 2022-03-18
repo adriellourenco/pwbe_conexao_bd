@@ -26,9 +26,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         case "CONTATOS":
             require_once("./controller/controllerContatos.php");
 
+            $res = inserirContato($_POST);
+            
+            // validação para indentificar o tipo de ação que será realizada 
             if ($action == "INSERIR") {
-                inserirContato($_POST); 
-            } 
+                if ( is_bool($res) && $res == true ) { 
+                    echo "<script>
+                            alert('Contato inserido com sucesso');
+                            window.location.href = 'index.php';
+                          </script>";
+
+                } else if ( is_array($res) ) {
+                     echo "<script>
+                            alert('Erro: " . $res["message"] . "');
+                            window.history.back();
+                          </script>";                   
+
+                } 
+            }
             break;
 
         default:

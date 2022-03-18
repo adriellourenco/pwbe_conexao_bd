@@ -11,7 +11,6 @@
 // Versão :  1.0                                    //
 /////////////////////////////////////////////////////
 
-require_once("model/bd/contato.php");
 
 /**
  * Inserir novos contatos atravez dos dados recebidos pela view
@@ -33,10 +32,26 @@ function inserirContato( $dadosContato ){
             );
 
 
+            // import do arquivo de modelagem para manipular o BD
+            require_once("model/bd/contato.php");
 
-            insertContato($contato);
+            // Chama a função que fara o insert no BD apartir da camada Model
+            if ( insertContato($contato) ) {
+                return true;
+            } else {
+                // retornando mensagem de erro
+                return array(
+                    "idErro" => 1,
+                    "message" => "não foi possivel inserir os dados no banco de dados"
+                );
+            }
         } else {
-            echo "ERRO: dados obrigatorios não encontrados";
+
+            // retornando mensagem de erro de dados incompletos
+            return array(
+                "idErro"    => 2,
+                "message"   => "Impossivel realizar inserção por causa da falta dos dados obrigatorios"
+            );
         }
     }
 }
@@ -57,6 +72,15 @@ function excluirContato(){
  * Solicita os dados de contato da model e encaminha para a view
  */
 function listarContato(){
+    require_once("model/bd/contato.php"); // importando model de contatos
+    
+    $res = selectAllContatos();
+
+    if ( !empty($res) ) {
+        return $res;
+    } else {
+        return false;
+    }
 }
 
 ?>
