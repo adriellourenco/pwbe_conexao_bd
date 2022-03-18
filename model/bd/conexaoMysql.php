@@ -18,10 +18,6 @@ const DATABASE = "db_contatos";
 
 $resultado = abrirConexaoMysql();
 
-echo "<pre>";
-print_r($resultado);
-echo "</pre>";
-
 /**
  * Abre a conexão com o banco de dados MySQL
  *
