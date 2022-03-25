@@ -15,7 +15,7 @@ $component = (string) null; // quem esta fazendo a requisição
 
 
 // validação para verificar se a requisição é um POST de um formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" || $_SERVER["REQUEST_METHOD"] == "GET") {
     
     // recebendo dados da url para saber quem esta solicitando e qual ação deve ser realizado
     $component = strtoupper($_GET["component"]); 
@@ -41,9 +41,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             alert('Erro: " . $res["message"] . "');
                             window.history.back();
                           </script>";                   
+                }
+            } elseif($action == 'DELETAR'){
 
-                } 
-            }
+                //Recebe o id do item que deverá ser excluído, 
+                //que foi enviado pela url no link da imagem
+                //de excluir que acionado na index 
+                $idcontato = $_GET['id'];
+
+                $resposta = excluirContato($idcontato);
+
+                if (is_bool($resposta) && $resposta) {
+                        echo ("<script>
+                        alert('Registro excluído com sucesso');
+                        window.location.href = 'index.php';
+                        </script>");
+                } elseif (is_array($resposta)) {
+                    echo "<script>
+                    alert('". $res["message"] . "');
+                    window.history.back();
+                    </script>";  
+                }
+            } 
             break;
 
         default:

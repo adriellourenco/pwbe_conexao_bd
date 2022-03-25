@@ -14,9 +14,9 @@
 const SERVER = "localhost";
 const USER = "root";
 const PASSWORD = "bcd127";
-const DATABASE = "db_contatos";
+const DATABASE = "dbcontatos";
 
-$resultado = abrirConexaoMysql();
+// $resultado = abrirConexaoMysql();
 
 /**
  * Abre a conexão com o banco de dados MySQL
@@ -26,8 +26,7 @@ $resultado = abrirConexaoMysql();
 function abrirConexaoMysql() {        
 	$conexao = array();
 
-	// se a conexão for estabelecida com o BD, iremos ter um array
-	// de dados sobre a conexão.  
+	// se a conexão for estabelecida com o BD, iremos ter um array de dados sobre a conexão.  
 	$conexao = mysqli_connect(SERVER, USER, PASSWORD, DATABASE);
 
 	// validação para verificar se conexão foi realizada com sucesso
@@ -36,6 +35,10 @@ function abrirConexaoMysql() {
 	} else {
 		return false;
 	}
+}
+
+function fecharConexaoMySQL($conexao){
+	mysqli_close($conexao);
 }
 
 // Existem 3 formas de criar conexão com BD MySQL no PHP ->

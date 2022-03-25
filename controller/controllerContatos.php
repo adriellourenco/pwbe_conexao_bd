@@ -65,7 +65,24 @@ function atualizarContato(){
 /**
  * Excluir contatos atravez dos dados recebidos pela view
  */
-function excluirContato(){
+function excluirContato($id){
+    if ($id != 0 && !empty($id) && is_numeric($id)) {
+       
+        //import do arquivo de contato
+        require_once('model/bd/contato.php');
+
+        //Chama a função da model e valida se o retorno foi verdadeiro ou falso
+        if(deleteContato($id)){
+            return true;
+        } else{
+            return array('idErrro' => 3,
+                     'message' => 'O banco de dados não pode excluir o registro.');
+        }
+    } else{
+        return array('idErrro' => 4,
+        'message' => 'Não é possível excluir um registro sem informar um id válido'   
+    );
+    }
 }
 
 /**
