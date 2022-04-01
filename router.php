@@ -49,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || $_SERVER["REQUEST_METHOD"] == "GET")
                 //de excluir que acionado na index 
                 $idcontato = $_GET['id'];
 
+                //chama a função de exclui na controller
                 $resposta = excluirContato($idcontato);
 
                 if (is_bool($resposta) && $resposta) {
@@ -62,7 +63,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || $_SERVER["REQUEST_METHOD"] == "GET")
                     window.history.back();
                     </script>";  
                 }
-            } 
+            } elseif ($action == 'BUSCAR'){
+
+                //Recebe o id do item que deverá ser editado, 
+                //que foi enviado pela url no link da imagem
+                //de editar que foi acionado na index 
+                $idcontato = $_GET['id'];
+
+                //chama a função de buscar na controller
+                $dados = buscarContato($idcontato);
+
+                //Ativa a utilização de variáveis de sessão no servidor 
+                session_start();
+
+                //Guarda em uma variável de sessão os dados que o BD retornou para a busca do id
+                    //Obs: Essa variável de sessão será utilizada na index para colocar nas caixas de texto
+                $_SESSION['dadosContato'] = $dados;
+
+                //header('location: index.php');
+
+                //Utilizando o require iremos apenas importar a tela do index,
+                //assim não havendo um novo carrregamento da página 
+                require_once("index.php");
+            }
             break;
 
         default:

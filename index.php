@@ -1,5 +1,23 @@
 <?php
-    
+
+$id          = $_SESSION['dadosContato']['id'];
+$nome        = $_SESSION['dadosContato']['nome'];
+$telefone    = $_SESSION['dadosContato']['telefone'];
+$celular     = $_SESSION['dadosContato']['celular'];
+$email       = $_SESSION['dadosContato']['email'];
+$observacao  = $_SESSION['dadosContato']['obs'];
+
+    //Valida se a variavel de sessao dadosContato não esta vazia  
+    if (session_status()) {
+        if (!empty($_SESSION['dadosContato'])) {
+            $id          = $_SESSION['dadosContato']['id'];
+            $nome        = $_SESSION['dadosContato']['nome'];
+            $telefone    = $_SESSION['dadosContato']['telefone'];
+            $celular     = $_SESSION['dadosContato']['celular'];
+            $email       = $_SESSION['dadosContato']['email'];
+            $observacao  = $_SESSION['dadosContato']['obs'];
+        }
+    }
 ?>
 
 
@@ -26,7 +44,7 @@
                             <label> Nome: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input autocomplete="off" type="text" name="txtNome" value="" placeholder="Digite seu Nome" maxlength="100">
+                            <input autocomplete="off" type="text" name="txtNome" value="<?=$nome?>" placeholder="Digite seu Nome" maxlength="100">
                         </div>
                     </div>
                                      
@@ -35,7 +53,7 @@
                             <label> Telefone: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input autocomplete="off" type="tel" name="txtTelefone" value="">
+                            <input autocomplete="off" type="tel" name="txtTelefone" value="<?=$telefone?>">
                         </div>
                     </div>
                     <div class="campos">
@@ -43,7 +61,7 @@
                             <label> Celular: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input autocomplete="off" type="tel" name="txtCelular" value="">
+                            <input autocomplete="off" type="tel" name="txtCelular" value="<?=$celular?>">
                         </div>
                     </div>
                    
@@ -53,7 +71,7 @@
                             <label> Email: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input autocomplete="off" type="email" name="txtEmail" value="">
+                            <input autocomplete="off" type="email" name="txtEmail" value="<?=$email?>">
                         </div>
                     </div>
                     <div class="campos">
@@ -61,7 +79,7 @@
                             <label> Observações: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <textarea name="txtObs" cols="50" rows="7"></textarea>
+                            <textarea name="txtObs" cols="50" rows="7"><?=$observacao?></textarea>
                         </div>
                     </div>
                     <div class="enviar">
@@ -99,8 +117,11 @@
                     <td class="tblColunas registros"><?= $item["email"] ?></td>
                    
                     <td class="tblColunas registros">
-                            <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
-                            <a href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>"> 
+                            <a href="router.php?component=contatos&action=buscar&id=<?=$item['id']?>">
+                                <img src="img/edit.png" alt="Editar" title="Editar" class="editar">
+                            </a>
+                            <!-- return - pagina espera a resposta para depois continuar-->
+                             <a onclick="return confirm('Deseja realmente excluir esse item?')" href="router.php?component=contatos&action=deletar&id=<?=$item['id']?>">  
                                 <img src="img/trash.png" alt="Excluir" title="Excluir" class="excluir"> 
                             </a>
                             <img src="img/search.png" alt="Visualizar" title="Visualizar" class="pesquisar">

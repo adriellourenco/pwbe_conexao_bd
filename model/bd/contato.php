@@ -82,8 +82,6 @@ function selectAllContatos(){
 
         return $resArray;
     }   
-
-    
 }
 
 /************************
@@ -121,5 +119,40 @@ function deleteContato($idcontato){
 
 }
 
+//Função para buscar um contato no BD atraves do id do registro
+function selectByIdContato($idcontato){
+
+    //Abre a conecao com o BD
+    $conexao = abrirConexaoMysql();
+
+    //script para selecionar um contato no BD 
+    $sqlQuery = "select * from tblcontatos where idcontato=".$idcontato;
+
+    //$res = result
+    $res = mysqli_query($conexao, $sqlQuery);
+
+    //valida se o BD retornou registros 
+    if ( $res ) {
+
+        // convertendo a resposta do BD para array
+        if ( $resData = mysqli_fetch_assoc($res) ) {
+            $resArray = array(
+                "id"         => $resData['idcontato'],
+                "nome"       => $resData["nome"],
+                "telefone"   => $resData["telefone"],
+                "celular"    => $resData["celular"],
+                "email"      => $resData["email"],
+                "obs"        => $resData["observacao"]
+            );
+        }       
+
+        //Solicita o fechamento da conexao com o BD
+        fecharConexaoMySQL($conexao);
+
+        
+        return $resArray;
+    }
+
+}
 
 ?>

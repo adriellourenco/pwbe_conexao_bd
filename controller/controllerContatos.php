@@ -80,7 +80,7 @@ function excluirContato($id){
         }
     } else{
         return array('idErrro' => 4,
-        'message' => 'Não é possível excluir um registro sem informar um id válido'   
+            'message' => 'Não é possível excluir um registro sem informar um id válido'   
     );
     }
 }
@@ -98,6 +98,30 @@ function listarContato(){
     } else {
         return false;
     }
+}
+
+//Função para buscar um contato atraves do id do registro
+function buscarContato($id){
+
+    if ($id != 0 && !empty($id) && is_numeric($id)){
+
+        //import do arquivo de contato
+        require_once('model/bd/contato.php');
+
+        //Chama a função na model que vai buscar no BD
+        $dados = selectByIdContato($id);
+
+        //Valida se existem dados para serem devolvidos
+        if(!empty($dados))
+            return $dados;
+        else
+            return false;
+    } else {
+        return array('idErrro' => 4,
+            'message' => 'Não é possível buscar um registro sem informar um id válido'   
+        );
+    }
+
 }
 
 ?>
