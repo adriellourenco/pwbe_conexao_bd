@@ -1,14 +1,13 @@
 <?php
+    //Essa variável foi criada para diferenciar no action do formulario
+    //qual ação deveria ser levada para a router (inserir ou editar).
+    //Nas condições abaixo, mudamos o action dessa variável para a ação de editar.
+    $form = (string) "router.php?component=contatos&action=inserir";
 
-$id          = $_SESSION['dadosContato']['id'];
-$nome        = $_SESSION['dadosContato']['nome'];
-$telefone    = $_SESSION['dadosContato']['telefone'];
-$celular     = $_SESSION['dadosContato']['celular'];
-$email       = $_SESSION['dadosContato']['email'];
-$observacao  = $_SESSION['dadosContato']['obs'];
-
-    //Valida se a variavel de sessao dadosContato não esta vazia  
+    // Valida se a utilização das 
     if (session_status()) {
+
+         //Valida se a variavel de sessao dadosContato não esta vazia 
         if (!empty($_SESSION['dadosContato'])) {
             $id          = $_SESSION['dadosContato']['id'];
             $nome        = $_SESSION['dadosContato']['nome'];
@@ -16,6 +15,13 @@ $observacao  = $_SESSION['dadosContato']['obs'];
             $celular     = $_SESSION['dadosContato']['celular'];
             $email       = $_SESSION['dadosContato']['email'];
             $observacao  = $_SESSION['dadosContato']['obs'];
+
+            //Mudamos a ação do form para editar o registro no click do botão "salvar"
+            //Encaminhamos também o id para a router para sabermos qual item será editado
+            $form = "router.php?component=contatos&action=editar&id=".$id;
+
+            //Destrói uma variável da memória do servidor
+            unset($_SESSION['dadosContato']);
         }
     }
 ?>
@@ -38,13 +44,14 @@ $observacao  = $_SESSION['dadosContato']['obs'];
                 
             </div>
             <div id="cadastroInformacoes">
-                <form  action="router.php?component=contatos&action=inserir" name="frmCadastro" method="post" >
+                <form  action="<?=$form?>" name="frmCadastro" method="post" >
                     <div class="campos">
                         <div class="cadastroInformacoesPessoais">
                             <label> Nome: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input autocomplete="off" type="text" name="txtNome" value="<?=$nome?>" placeholder="Digite seu Nome" maxlength="100">
+                            <!-- isset($nome)?$nome:null - a variável existe? Se existe, printe ela na tela, se não existe, declare ela como nula-->
+                            <input autocomplete="off" type="text" name="txtNome" value="<?= isset($nome)?$nome:null ?>" placeholder="Digite seu Nome" maxlength="100">
                         </div>
                     </div>
                                      
@@ -53,7 +60,7 @@ $observacao  = $_SESSION['dadosContato']['obs'];
                             <label> Telefone: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input autocomplete="off" type="tel" name="txtTelefone" value="<?=$telefone?>">
+                            <input autocomplete="off" type="tel" name="txtTelefone" value="<?= isset($telefone)?$telefone:null ?>">
                         </div>
                     </div>
                     <div class="campos">
@@ -61,7 +68,7 @@ $observacao  = $_SESSION['dadosContato']['obs'];
                             <label> Celular: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input autocomplete="off" type="tel" name="txtCelular" value="<?=$celular?>">
+                            <input autocomplete="off" type="tel" name="txtCelular" value="<?= isset($celular)?$celular:null?>">
                         </div>
                     </div>
                    
@@ -71,7 +78,7 @@ $observacao  = $_SESSION['dadosContato']['obs'];
                             <label> Email: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <input autocomplete="off" type="email" name="txtEmail" value="<?=$email?>">
+                            <input autocomplete="off" type="email" name="txtEmail" value="<?= isset($email)?$email:null ?>">
                         </div>
                     </div>
                     <div class="campos">
@@ -79,7 +86,7 @@ $observacao  = $_SESSION['dadosContato']['obs'];
                             <label> Observações: </label>
                         </div>
                         <div class="cadastroEntradaDeDados">
-                            <textarea name="txtObs" cols="50" rows="7"><?=$observacao?></textarea>
+                            <textarea name="txtObs" cols="50" rows="7"><?= isset($observacao)?$observacao:null ?></textarea>
                         </div>
                     </div>
                     <div class="enviar">

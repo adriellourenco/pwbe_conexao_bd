@@ -45,7 +45,36 @@ function insertContato($dadosContato) {
 }   
 
 /** atualiza um contato no DB */
-function updateContato(){
+function updateContato($dadosContato){
+
+    //Declaração de variável para usar nos retuns desta função 
+    $statusResposta = (boolean) false; 
+
+    //Abre a conexão com o BD
+    $conexao = abrirConexaoMysql();
+
+    // montando instrução sql que será executada para inserir um contato no DB
+    $sqlQuery = "update tblcontatos set 
+                        nome = '". $dadosContato["nome"] ."',
+                        telefone = '". $dadosContato["telefone"] ."', 
+                        celular = '". $dadosContato["celular"] ."', 
+                        email = '". $dadosContato["email"] ."', 
+                        observacao = '". $dadosContato["obs"] ."'
+                        where idcontato =".$dadosContato["id"];
+                    // NÃO PODE ESQUECER DO WHERE!!!
+                    
+    // executa uma instrução no bd verificando se ela esta correta
+    if ( mysqli_query($conexao, $sqlQuery) ) {
+        if ( mysqli_affected_rows($conexao) ) {
+            $statusResposta = true;
+        }
+    }
+
+    //Fecha a conexão com o BD
+    fecharConexaoMySQL($conexao);
+
+    return $statusResposta;
+
 }
 
 /** Lista todos os contatos do DB */

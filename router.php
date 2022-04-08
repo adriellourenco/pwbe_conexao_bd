@@ -13,7 +13,6 @@
 $action = (string) null; // qual ação deve ser realizada
 $component = (string) null; // quem esta fazendo a requisição
 
-
 // validação para verificar se a requisição é um POST de um formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST" || $_SERVER["REQUEST_METHOD"] == "GET") {
     
@@ -26,10 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || $_SERVER["REQUEST_METHOD"] == "GET")
         case "CONTATOS":
             require_once("./controller/controllerContatos.php");
 
-            $res = inserirContato($_POST);
+            
             
             // validação para indentificar o tipo de ação que será realizada 
             if ($action == "INSERIR") {
+                //Chama a função de inserir na controller
+                $res = inserirContato($_POST);
+
                 if ( is_bool($res) && $res == true ) { 
                     echo "<script>
                             alert('Contato inserido com sucesso');
@@ -85,11 +87,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" || $_SERVER["REQUEST_METHOD"] == "GET")
                 //Utilizando o require iremos apenas importar a tela do index,
                 //assim não havendo um novo carrregamento da página 
                 require_once("index.php");
+
+            // validação para indentificar o tipo de ação que será realizada 
+            } elseif ($action == 'EDITAR') {
+
+                //Recebe o id que foi encaminhado no action do form pela URL
+                $idContato = $_GET['id'];
+
+                //Chama a função de atualizar na controller
+                $resposta = atualizarContato($_POST, $idContato);
+            
+                if ( is_bool($resposta) && $resposta == true ) { 
+                    echo "<script>
+                            alert('Contato x com sucesso');
+                            window.location.href = 'index.php';
+                        </script>";
+
+                } else if ( is_array($resposta) ) {
+                    echo "<script>
+                            alert('Erro: " . $resposta["message"] . "');
+                            window.history.back();
+                        </script>";                   
+                }
             }
             break;
 
-        default:
+        default;
             echo "ERROR: invalid component";
             break;
     } 
 }
+
+?> 
